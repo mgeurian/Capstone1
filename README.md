@@ -102,14 +102,3 @@ Users will be able to view/add/edit/delete notes on an additional ‘notes_page�
 f. What features make your site more than CRUD? Do you have any stretch goals?
 
 The site will have sort and filter functions to view different currencies based on their functions and for what they were made. Eventually incorporating charts into the currency pages. As well as showing market caps and dominance through pie charts.
-	
-
-
-
-
-
-Please create a GitHub repository for this Capstone Project and label it accordingly. All code and further documentation associated with this project should be added to this repository. 
-
-Once you’ve added your proposal, please submit a link to your repository for your mentor to review. 
-
-Once your mentor has approved your proposal, please share your GitHub repository URL on Slack and ask for feedback.
