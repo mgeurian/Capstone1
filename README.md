@@ -18,7 +18,7 @@ This site will be designed for all people with a desire to learn more about cryp
 
 3. What data do you plan on using? You may have not picked your actual API yet, which is fine, just outline what kind of data you would like it to contain. 
 
-The API chosen for this project is the ‘CoinMarketCap API’.
+The API chosen for this project is the ‘CoinMarketCap API’ (https://coinmarketcap.com/api/).
 Metadata offered such as logos, descriptions, official website URLs, social links, and technical documentation will be included in the 
 
 
@@ -102,3 +102,15 @@ Users will be able to view/add/edit/delete notes on an additional ‘notes_page�
 f. What features make your site more than CRUD? Do you have any stretch goals?
 
 The site will have sort and filter functions to view different currencies based on their functions and for what they were made. Eventually incorporating charts into the currency pages. As well as showing market caps and dominance through pie charts.
+
+****************************************
+
+
+FUTURE upgrades
+Eventually, the following (with a paid API) would be nice to implement:
+
+-  assets will have general information available and links to exchanges where they can purchase CCs.
+
+-  ability to view exchange information
+
+-  ability to view one's own CC  ownership information.
