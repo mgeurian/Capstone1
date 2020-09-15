@@ -1,21 +1,26 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, session, flash, url_for, redirect
 import requests
 from requests import Request, Session
-from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
-import json
 
-# from flask_debugtoolbar import DebugToolbarExtension
+from flask_debugtoolbar import DebugToolbarExtension
 
 from secret import API_KEY
 
-from user_models import db, connect_db
+from forms import RegisterForm, LoginForm
+
+from user_models import db, connect_db, User
+from sqlalchemy.exc import IntegrityError
+
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///db_educryption'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = "educryption"
-# debug = DebugToolbarExtension(app)
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+
+debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
@@ -40,3 +45,57 @@ def get_crypto_data():
 
     response_json = res.json()
     return response_json
+
+
+# ****************************************************
+# ****************************************************
+
+@app.route('/register', methods=['GET', 'POST'])
+def register_user():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data 
+        email = form.email.data   
+        first_name = form.first_name.data   
+        last_name = form.last_name.data   
+
+        new_user = User.register(username, password, email, first_name, last_name)
+
+        db.session.add(new_user)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            form.username.errors.append('Username taken. Please pick another username')
+            return render_template('register.html', form=form)
+        session['username'] = new_user.username
+        flash('Welcome! Successfully Created Your Account!', "success")
+        return redirect(f'/')
+
+    return render_template('register.html', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login_user():
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data 
+
+        user = User.authenticate(username, password)
+
+        if user:
+            flash(f"Welcome Back, {user.username}!", "primary")
+            session['username'] = user.username
+            return redirect(f'/')
+
+        else:
+            form.username.errors = ['Invalid username/password']
+
+    return render_template('login.html', form=form)
+
+# ****************************************************
+# ****************************************************
+
+
+# implement flash messaging for login/register routes
