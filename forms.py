@@ -14,3 +14,8 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()])
     password = PasswordField("Password", validators=[InputRequired()])
+
+
+class NotesForm(FlaskForm):
+    title = StringField("Title", validators=[InputRequired()])
+    content = TextAreaField("Content", validators=[InputRequired()])
