@@ -9,7 +9,7 @@ async function processForm(e) {
 
   const res = await axios.post(`http://127.0.0.1:5000/api/cryptodata`, { name });
 
-console.log(res.data.currencies[1].slug)
+// console.log(res.data.currencies[1].slug)
 console.log(res)
   
 
@@ -20,11 +20,11 @@ console.log(res)
 function handleResponse(res) {
 
 
-  return `
-    <div>
-      <p>Your id for ${res.data.currencies[1].slug} is ${res.data.currencies[1].id}.</p>
-    </div>
-  `; 
+  // return `
+  //   <div>
+  //     <p>Your id for ${res.data.currencies[1].slug} is ${res.data.currencies[1].id}.</p>
+  //   </div>
+  // `; 
 
 }
 

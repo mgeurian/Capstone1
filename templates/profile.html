@@ -27,15 +27,15 @@
     <div class='card my-4'>
       <div class="card-body">      
         
-        <h5 class="card-title text-info">{{ feed.title }}
+        <h5 class="card-title text-info">{{ note.title }}
           <form style="display:inline;">
-            <button class="btn alert-warning" formmethod="GET" formaction="/feedback/{{ feed.id }}/update"><i class="fa fa-pencil-square-o"></i></button>
-            <button class="btn btn-danger"formmethod="POST" formaction="/feedback/{{ feed.id }}/delete"><i class="fa fa-trash"></i></button>            
+            <button class="btn alert-warning" formmethod="GET" formaction="/notes/{{ note.id }}/update"><i class="fa fa-pencil-square-o"></i></button>
+            <button class="btn btn-danger"formmethod="POST" formaction="/notes/{{ note.id }}/delete"><i class="fa fa-trash"></i></button>            
           </form>
         </h5>
 
         <p>
-          {{ feed.content }}
+          {{ note.content }}
         </p>
 
       </div>

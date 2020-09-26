@@ -8,9 +8,7 @@ from secret import API_KEY
 
 from forms import RegisterForm, LoginForm, NotesForm
 
-from models import db, connect_db, Currency
-
-from user_models import User
+from models import db, connect_db, User, Currency, Tag, Currency_Tag, URL, Currency_Url, User_Currency, Note
 
 from sqlalchemy.exc import IntegrityError
 
@@ -58,6 +56,9 @@ def home_page():
     return render_template('index.html')
 
 
+
+# with response data, loop through and serialize each record for json, then send it back
+
 @app.route('/api/cryptodata', methods=["POST"])
 def update_crypto_data():
     """Get CMC response."""
@@ -71,18 +72,17 @@ def update_crypto_data():
     # res = requests.get(base_api + 'map' + api_key)
 
 
-    res = requests.get(base_api + 'listings/latest' + api_key)
-
+    res = requests.get(base_api + 'listings/latest' + api_key + '&limit=1')
+    print(res)
     currencies = Currency.query.all()
     serialized = [c.serialize() for c in currencies]
-
 
     # response_json = res.json()
     return jsonify(currencies = serialized)
 
 
-# ****************************************************
-# ****************************************************
+
+#  ********** REGISTER NEW USER **********
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
@@ -109,6 +109,8 @@ def register_user():
     return render_template('register.html', form=form)
 
 
+#  ********** LOGIN USER **********
+
 @app.route('/login', methods=['GET', 'POST'])
 def login_user():
     form = LoginForm()
@@ -129,15 +131,13 @@ def login_user():
     return render_template('login.html', form=form)
 
 
+#  ********** LOGOUT USER **********
+
 @app.route('/logout')
 def logout_user():
     session.pop('username')
     flash("Goodbye!", "info")
     return redirect(url_for('home_page'))
-
-# ****************************************************
-# ****************************************************
-
 
 
 #  ********** VIEW USER PROFILE **********
@@ -152,6 +152,7 @@ def show_user(username):
     user = User.query.get(username)
 
     return render_template("profile.html", user=user)
+
 
 #  ********** DELETE USER **********
 
@@ -168,17 +169,11 @@ def delete_user(username):
         db.session.delete(user)
         db.session.commit()
         session.pop('username')
-        flash("The user and their feedback have been deleted!", "danger")
-        return redirect("/login")
+        flash("The user and their notes have been deleted!", "danger")
+        return redirect(url_for('home_page'))
 
 
 
-# ****************************************************
-# ****************************************************
-
-
-
-# implement flash messaging for login/register routes
 
 
 # have a file that requests all api data   
