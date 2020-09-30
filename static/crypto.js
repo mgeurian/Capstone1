@@ -11,20 +11,34 @@ async function processForm(e) {
 
 // console.log(res.data.currencies[1].slug)
 console.log(res)
+
+data= res.data
   
 
-  let cryptoData =$(handleResponse(res));
+  let cryptoData =$(handleResponse(data));
     $('#currency-list').append(cryptoData)
 }
 
 function handleResponse(res) {
 
 
-  // return `
-  //   <div>
-  //     <p>Your id for ${res.data.currencies[1].slug} is ${res.data.currencies[1].id}.</p>
-  //   </div>
-  // `; 
+  // {% for error in field.errors %}
+  // <span class="form-text text-danger"> {{ error }} </span>
+  // {% endfor %}
+  let currency_list;
+
+  res.map(function (val, idx){
+    currency_list +=
+    `
+    <div>
+      <p>Your id for ${res.data[idx].name} is ${res.data[idx].id}.</p>
+    </div>
+    `
+    
+  })
+
+
+  return currency_list;
 
 }
 

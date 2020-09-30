@@ -25,13 +25,15 @@ debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
-# api connetion variables
+# api connection variables
 
 base_api = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/'
 api_key = '?CMC_PRO_API_KEY=' + API_KEY
 
 
+
 def update_db_currency(res):
+
     new_currency = Currency(
         id = request.json["flavor"],
         name = request.json["name"],
@@ -45,8 +47,8 @@ def update_db_currency(res):
         percent_change_1h = request.json["percent_change_1h"],
         percent_change_24h = request.json["percent_change_24h"],
         percent_change_7d = request.json["percent_change_7d"]
-
     )
+
     db.session.add(new_currency)
     db.session.commit()
 
@@ -64,21 +66,40 @@ def update_crypto_data():
     """Get CMC response."""
 
     # id = request.json["crypto_id"]
-    # name = request.json["name"]
-    # print(name)
+    name = request.json["name"]
+
+
+    # *********** this block gets currencies by slug ***********
+
     # by slug
-
     # res = requests.get(base_api + 'info' + api_key + '&slug=' + name)
-    # res = requests.get(base_api + 'map' + api_key)
+
+    # **************************
 
 
-    res = requests.get(base_api + 'listings/latest' + api_key + '&limit=1')
-    print(res)
-    currencies = Currency.query.all()
-    serialized = [c.serialize() for c in currencies]
 
+    # *********** this block gets ALL currencies by CMC IDs ***********
+    
+    res = requests.get(base_api + 'map' + api_key)
+    response_json = res.json()
+
+    # **************************
+
+
+
+    # *********** this block returns listings/latest ***********
+
+    # res = requests.get(base_api + 'listings/latest' + api_key + '&limit=1')
+    # currencies = Currency.query.all()
+    # serialized = [c.serialize() for c in currencies]
     # response_json = res.json()
-    return jsonify(currencies = serialized)
+    # return jsonify(currencies = serialized)
+
+    # **************************
+
+    return response_json
+
+
 
 
 
