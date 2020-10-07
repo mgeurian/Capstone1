@@ -27,19 +27,26 @@
     </div>
   </div>
 
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-      <li class="page-item disabled">
-        <a class="page-link" href="#" tabindex="-1">Previous</a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
-  </nav>
+  <div class="container">
+    <h1>User Information</h1>
+
+    <p>Username:  {{ user.username }}</p>
+    
+    <p>Email:  {{ user.email }}</p>
+    
+    <p>First Name:  {{ user.first_name }}</p>
+    
+    <p>Last Name:  {{ user.last_name }}</p>
+  </div>
+
+  
+  
+  
+  <form>
+    <button class="btn btn-sm btn-primary" formmethod="GET" formaction="/users/{{ user.username }}/notes/add">Add Notes</button>
+  
+    <button class="btn btn-sm btn-danger" formmethod="POST" formaction="/users/{{ user.username }}/delete">Delete User</button>  
+  </form>
 
 
   <div class="container">
@@ -72,23 +79,3 @@
       </div>
     </div>      
   </div>
-
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-      <li class="page-item disabled">
-        <a class="page-link" href="#" tabindex="-1">Previous</a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
-  </nav>
-
-</body>
-</html>
-
-
-<p>the home page will have a paginated list (100) of cards, with pagination above and below the list of currency cards.</p>

@@ -81,16 +81,16 @@ class Currency(db.Model):
 
     platform = db.Column(db.String)
 
-    price = db.Column(db.Float, nullable=False)
+    price = db.Column(db.Float)
 
-    hourly_change = db.Column(db.Float, nullable=False)
+    # hourly_change = db.Column(db.Float, nullable=False)
 
-    daily_change = db.Column(db.Float, nullable=False)
+    # daily_change = db.Column(db.Float, nullable=False)
 
-    weekly_change = db.Column(db.Float, nullable=False)
+    # weekly_change = db.Column(db.Float, nullable=False)
 
 
-    def serialize(self):
+    def serialize_currency(self):
         return {
             'id': self.id,
             'name': self.name,
@@ -100,10 +100,7 @@ class Currency(db.Model):
             'logo': self.logo,
             'description': self.description,
             'platform': self.platform,
-            'price': self.price,
-            'hourly_change': self.hourly_change,
-            'daily_change': self.daily_change,
-            'weekly_change': self.weekly_change
+            'price': self.price
         }
 
 

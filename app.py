@@ -31,31 +31,34 @@ base_api = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/'
 api_key = '?CMC_PRO_API_KEY=' + API_KEY
 
 
+# the update_db_currency function would pull from a form and update a currency 
+# NOT SOMETHING THE USER SHOULD BE ABLE TO DO
 
-def update_db_currency(res):
+# def update_db_currency(res):
 
-    new_currency = Currency(
-        id = request.json["flavor"],
-        name = request.json["name"],
-        symbol = request.json["symbol"],
-        category = request.json["category"],
-        slug = request.json["slug"],
-        logo = request.json["logo"],
-        description = request.json["description"],
-        platform = request.json["platform"],
-        price = request.json["price"],
-        percent_change_1h = request.json["percent_change_1h"],
-        percent_change_24h = request.json["percent_change_24h"],
-        percent_change_7d = request.json["percent_change_7d"]
-    )
+    # new_currency = Currency(
+    #     id = request.json["flavor"],
+    #     name = request.json["name"],
+    #     symbol = request.json["symbol"],
+    #     category = request.json["category"],
+    #     slug = request.json["slug"],
+    #     logo = request.json["logo"],
+    #     description = request.json["description"],
+    #     platform = request.json["platform"],
+    #     price = request.json["price"],
+    # )
 
-    db.session.add(new_currency)
-    db.session.commit()
+    # db.session.add(new_currency)
+    # db.session.commit()
 
 
 @app.route('/')
 def home_page():
-    return render_template('index.html')
+
+    currencies = [c.serialize_currency() for c in Currency.query.all()]
+    print(currencies)
+    response_json = jsonify(currencies)
+    return render_template('index.html', currencies=response_json)
 
 
 
@@ -66,7 +69,7 @@ def update_crypto_data():
     """Get CMC response."""
 
     # id = request.json["crypto_id"]
-    name = request.json["name"]
+    # name = request.json["name"]
 
 
     # *********** this block gets currencies by slug ***********
@@ -77,11 +80,41 @@ def update_crypto_data():
     # **************************
 
 
+    # this block will be placed into the home_page route
+    # *********** this block gets ALL currencies ***********
+    # take the response, serialize it, add it to the db, commit it to the db, repeat
+    # to serialize a loop look at app.py in flask/rest/dessert app 
+    # serialized = serialize(c) for c in response_json['data']
 
-    # *********** this block gets ALL currencies by CMC IDs ***********
-    
-    res = requests.get(base_api + 'map' + api_key)
-    response_json = res.json()
+
+
+    # return ( jsonify(currencies=serialized ), 201 )
+
+    # res = requests.get(base_api + 'map' + api_key)
+
+    # response = res.json()
+
+    # for c in response['data']:
+    #     new_currency = Currency(
+    #         id = c["id"],
+    #         name = c["name"],
+    #         symbol = c["symbol"],
+    #         slug = c["slug"],
+    #         platform = c["platform"] 
+    #     )
+
+    #     db.session.add(new_currency)
+    #     db.session.commit()
+
+
+
+
+    # use the following for returning all currencies to the front-end
+
+    # @app.route('/api/todos')
+    # def list_todos():
+    #     all_todos = [todo.serialize() for todo in Todo.query.all()]
+    #     return jsonify(todos = all_todos)
 
     # **************************
 
@@ -97,7 +130,8 @@ def update_crypto_data():
 
     # **************************
 
-    return response_json
+
+
 
 
 
@@ -193,8 +227,3 @@ def delete_user(username):
         flash("The user and their notes have been deleted!", "danger")
         return redirect(url_for('home_page'))
 
-
-
-
-
-# have a file that requests all api data   
