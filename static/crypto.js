@@ -21,16 +21,6 @@ async function processForm(e) {
 
 function handleResponse(res) {
 
-
-  // {% for error in field.errors %}
-  // <span class="form-text text-danger"> {{ error }} </span>
-  // {% endfor %}
-  // let currency_list;
-
-  // res.map(function (val, idx){
-  //   currency_list +=
-  console.log(res)
-
   return `
     <div>
       <p>will put something else here.</p>
@@ -45,10 +35,3 @@ function handleResponse(res) {
 }
 
 $("#crypto-form").on("submit", processForm);
-
-// return `
-// <div class="col-4" data-cupcake-id=${c.id}>
-//     <button class="delete-cupcake">REMOVE</button>
-//   <img class="img-thumbnail" src="${c.image}">
-// </div>
-// `;
